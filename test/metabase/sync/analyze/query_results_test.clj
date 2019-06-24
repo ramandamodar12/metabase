@@ -33,6 +33,7 @@
   [query-map]
   (let [results (qp/process-query query-map)]
     (when (= (:status results) :failed)
+      (println (u/format-color 'red results))
       (throw (ex-info "Query Failed" results)))
     (->> results
          :data
