@@ -233,8 +233,8 @@
     (qp.test/format-rows-by [int int]
       (qp.test/rows+column-names
         (data/run-mbql-query venues
-          {:aggregation  [[:named [:metric (u/get-id metric)] "My Cool Metric"]]
-           :breakout     [[:field-id $price]]})))))
+          {:aggregation [[:named [:metric (u/get-id metric)] "My Cool Metric"]]
+           :breakout    [[:field-id $price]]})))))
 
 ;; check that METRICS (ick) with a nested aggregation still work inside a NAMED clause
 (datasets/expect-with-drivers (qp.test/non-timeseries-drivers-with-feature :expression-aggregations)
@@ -250,17 +250,17 @@
     (qp.test/format-rows-by [int int]
       (qp.test/rows+column-names
         (data/run-mbql-query venues
-          {:aggregation  [[:named [:metric (u/get-id metric)] "My Cool Metric"]]
-           :breakout     [[:field-id $price]]})))))
+          {:aggregation [[:named [:metric (u/get-id metric)] "My Cool Metric"]]
+           :breakout    [[:field-id $price]]})))))
 
 ;; check that named aggregations come back with the correct column metadata (#4002)
 (datasets/expect-with-drivers (qp.test/non-timeseries-drivers-with-feature :expression-aggregations)
-  (let [col-name (driver/format-custom-field-name driver/*driver* "Count of Things")]
+  (let [col-name "Count of Things"]
     (assoc (qp.test/aggregate-col :count)
       :name         col-name
       :display_name col-name))
   (-> (data/run-mbql-query venues
-        {:aggregation  [[:named ["COUNT"] "Count of Things"]]})
+        {:aggregation [[:named ["COUNT"] "Count of Things"]]})
       qp.test/cols
       first))
 
@@ -270,4 +270,4 @@
   (qp.test/format-rows-by [int]
     (qp.test/rows
       (data/run-mbql-query venues
-        {:aggregation  [["*" ["cum_count"] 10]]}))))
+        {:aggregation [["*" ["cum_count"] 10]]}))))

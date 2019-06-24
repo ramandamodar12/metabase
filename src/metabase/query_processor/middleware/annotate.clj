@@ -441,11 +441,11 @@
             (and (empty? rows)
                  (nil? columns)))
     (let [sorted-columns (expected-column-sort-order query results)]
-      (-> results
-          (assoc :rows (for [row rows]
-                         (for [col sorted-columns]
-                           (get row col))))
-          (dissoc :columns)))))
+      (assoc results
+        :columns (map u/keyword->qualified-name sorted-columns)
+        :rows    (for [row rows]
+                   (for [col sorted-columns]
+                     (get row col)))))))
 
 (defn result-rows-maps->vectors
   "For drivers that return query result rows as a sequence of maps rather than a sequence of vectors, determine
