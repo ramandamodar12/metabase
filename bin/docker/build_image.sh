@@ -20,6 +20,7 @@ if [ -z $MB_TAG ]; then
     exit 1
 fi
 
+
 if [ "$3" == "--publish" ]; then
     PUBLISH="YES"
 fi
