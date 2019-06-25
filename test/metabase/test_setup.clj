@@ -90,7 +90,8 @@
   (doseq [[^Thread thread, stacktrace] (Thread/getAllStackTraces)
           :when                        (and (.isAlive thread)
                                             (not (.isDaemon thread))
-                                            (not= (.getName thread) "main"))]
+                                            (not= (.getName thread) "main")
+                                            (= (.getState thread) Thread$State/TIMED_WAITING))]
     (println
      "attempting to shut down thread:"
      (u/pprint-to-str 'blue
@@ -100,9 +101,10 @@
         :interrupted (.isInterrupted thread)
         :frames      (take 5 stacktrace)}))
     (try
-      (.interrupt thread)
+      ;; yes, this is deprecated, but it doesn't matter because we're shutting down anyway
+      (.stop thread)
       (catch Throwable e
-        (log/error e "Failed to make Thread a daemon thread")))))
+        (log/error e "Failed to stop thread")))))
 
 (defn test-teardown
   {:expectations-options :after-run}

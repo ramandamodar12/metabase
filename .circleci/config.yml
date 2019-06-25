@@ -18,7 +18,8 @@ executors:
   node:
     working_directory: /home/circleci/metabase/metabase/
     docker:
-      - image: circleci/node:current-browsers
+      # - image: circleci/node:7-browsers
+      - image: circleci/clojure:lein-2.9.1-node-browsers
 
   clojure-and-node:
     working_directory: /home/circleci/metabase/metabase/
