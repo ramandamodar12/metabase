@@ -138,7 +138,6 @@ export default class LoginApp extends Component {
                     className="mx1 absolute text-centered left right"
                     style={{ bottom: -8 }}
                   >
-                    <span className="text-bold px3 py2 text-medium bg-white">{t`OR`}</span>
                   </div>
                 </div>
               )}
@@ -148,90 +147,6 @@ export default class LoginApp extends Component {
                   loginError && loginError.data.message ? loginError : null
                 }
               />
-
-              <FormField
-                key="username"
-                fieldName="username"
-                formError={loginError}
-              >
-                <FormLabel
-                  title={
-                    Settings.ldapEnabled()
-                      ? t`Username or email address`
-                      : t`Email address`
-                  }
-                  fieldName={"username"}
-                  formError={loginError}
-                />
-                <input
-                  className="Form-input Form-offset full py1"
-                  name="username"
-                  placeholder="youlooknicetoday@email.com"
-                  type={
-                    /*
-                     * if a user has ldap enabled, use a text input to allow for
-                     * ldap username && schemes. if not and they're using built
-                     * in auth, set the input type to email so we get built in
-                     * validation in modern browsers
-                     * */
-                    ldapEnabled ? "text" : "email"
-                  }
-                  onChange={e => this.onChange("username", e.target.value)}
-                  autoFocus
-                />
-                <span className="Form-charm" />
-              </FormField>
-
-              <FormField
-                key="password"
-                fieldName="password"
-                formError={loginError}
-              >
-                <FormLabel
-                  title={t`Password`}
-                  fieldName={"password"}
-                  formError={loginError}
-                />
-                <input
-                  className="Form-input Form-offset full py1"
-                  name="password"
-                  placeholder="Shh..."
-                  type="password"
-                  onChange={e => this.onChange("password", e.target.value)}
-                />
-                <span className="Form-charm" />
-              </FormField>
-
-              <div className="Form-field">
-                <div className="Form-offset flex align-center">
-                  <CheckBox
-                    name="remember"
-                    checked={this.state.rememberMe}
-                    onChange={() =>
-                      this.setState({ rememberMe: !this.state.rememberMe })
-                    }
-                  />
-                  <span className="ml1">{t`Remember Me`}</span>
-                </div>
-              </div>
-
-              <div className="Form-actions p4">
-                <Button primary={this.state.valid} disabled={!this.state.valid}>
-                  {t`Sign in`}
-                </Button>
-                <Link
-                  to={
-                    "/auth/forgot_password" +
-                    (Utils.validEmail(this.state.credentials.username)
-                      ? "?email=" + this.state.credentials.username
-                      : "")
-                  }
-                  className="Grid-cell py2 sm-py0 md-text-right text-centered flex-full link"
-                  onClick={e => {
-                    window.OSX ? window.OSX.resetPassword() : null;
-                  }}
-                >{t`I seem to have forgotten my password`}</Link>
-              </div>
             </form>
           </div>
         </div>
