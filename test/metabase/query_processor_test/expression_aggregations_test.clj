@@ -255,7 +255,7 @@
 
 ;; check that named aggregations come back with the correct column metadata (#4002)
 (datasets/expect-with-drivers (qp.test/non-timeseries-drivers-with-feature :expression-aggregations)
-  (let [col-name "Count of Things"]
+  (let [col-name (driver/format-custom-field-name driver/*driver* "Count of Things")]
     (assoc (qp.test/aggregate-col :count)
       :name         col-name
       :display_name col-name))
